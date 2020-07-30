@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'dart:math' as math;
 
 typedef void StringCallback(String val);
 
@@ -65,8 +66,9 @@ class _BackgroundLiveState extends State<BackgroundLive> {
             style: TextStyle(color: Colors.green),
           ),
         ),
+        width: 900,
         controller: _controller,
-        aspectRatio: 9 / 16,
+        aspectRatio: ratio,
         showVideoProgressIndicator: false,
         onReady: () {
           _isPlayerReady = true;
@@ -80,22 +82,28 @@ class _BackgroundLiveState extends State<BackgroundLive> {
       builder: (context, player) {
         return Scaffold(
           key: _scaffoldKey,
+          backgroundColor: Colors.orange,
           body: SingleChildScrollView(
             child: Stack(
               children: [
+//                Transform.rotate(
+//                  angle: -math.pi / 2,
+//                  child: player,
+//                ),
                 player,
-//              _playerState == PlayerState.playing
-//                  ? Container()
-//                  : _startScreen(),
+                _playerState == PlayerState.playing ||
+                        _playerState == PlayerState.ended
+                    ? Container()
+                    : _startScreen(),
                 _isEnd ? _endScreen() : Container(),
-                _isPlayerReady ? Container() : _endScreen(),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Text(
-                    _playerState.toString(),
-                    style: TextStyle(color: Colors.blue),
-                  ),
-                )
+//                _isPlayerReady ? Container() : _endScreen(),
+//                Align(
+//                  alignment: Alignment.topCenter,
+//                  child: Text(
+//                    _playerState.toString(),
+//                    style: TextStyle(color: Colors.blue),
+//                  ),
+//                )
               ],
             ),
           ),
@@ -106,6 +114,7 @@ class _BackgroundLiveState extends State<BackgroundLive> {
 
   Widget _endScreen() {
     return Container(
+      height: MediaQuery.of(context).size.height,
       color: Colors.blueGrey,
       child: Center(
         child: Text("End Video"),
@@ -115,9 +124,12 @@ class _BackgroundLiveState extends State<BackgroundLive> {
 
   Widget _startScreen() {
     return Container(
-      color: Colors.green,
+      height: MediaQuery.of(context).size.height,
+      color: Colors.black,
       child: Center(
-        child: Text("Starting..."),
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.indigo,
+        ),
       ),
     );
   }

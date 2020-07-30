@@ -12,14 +12,14 @@ class _LivePageState extends State<LivePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
+    return Scaffold(
+      body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Stack(
           children: [
             BackgroundLive(
-                url: "https://www.youtube.com/watch?v=-MkClg7XgRI",
+                url: "https://youtu.be/SCiMSkb62g8",
                 callback: (val) {
                   setState(() {
                     titleLive = val;
